@@ -1,0 +1,157 @@
+.react-tel-input .form-control {
+    /* height: auto; */
+    width: 100%;
+    /* padding: 16px 14px; */
+}
+
+.upcoming-events{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 55px;
+    padding: 50px 0;
+}
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.section-title{
+    width: 100%;
+    font-size: 45px !important;
+    font-weight: 800 !important;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.banner {
+    background-image: url(../../public/banner.png);
+     background-position: center; 
+     background-size: cover; 
+     background-repeat: no-repeat; 
+     padding: 9pc 0px; 
+     object-fit: cover;
+     margin-top: 20px;
+  }
+
+.books{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    gap: 15px;
+    padding: 70px 0;
+
+}
+.info{
+    text-align: center;
+    padding: 5px 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.add-btn{
+        display: flex;
+    flex-direction: row-reverse;
+}
+
+.book-filtres{
+    width: 85%;
+}
+
+
+
+ul {
+	list-style: none;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+	gap: 20px;
+}
+
+.pagination .page-number {
+	font-size: 16px;
+	font-weight: 600;
+	color: #1976d2;
+	background: #fff;
+	padding: 10px 20px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.5s ease;
+}
+
+.pagination .page-number:hover {
+	color: #fff;
+	background: #1976d2;
+}
+
+.pagination .active {
+	color: #fff;
+	background: #1976d2;
+}
+
+.pagination .active:hover {
+	color: #1976d2;
+	background: #fff;
+}
+
+.css-dnrpxu-MuiCardActions-root {
+    display: block;
+}
+
+
+.css-1ri6ub7-MuiPaper-root-MuiCard-root {
+ max-width: 100% !important;
+ background-color: transparent !important;
+ box-shadow: none !important;
+}
+
+.css-1osj8n2-MuiGrid-root {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+.css-11lq3yg-MuiGrid-root {
+    margin: 20px 0;
+}
+
+.sold-out-img {
+    position: absolute;
+    bottom: 30%;
+}
+
+.css-bhp9pd-MuiPaper-root-MuiCard-root {
+    padding: 20px !important;
+    box-shadow: none;
+}
+
+/* .css-n3fyjk-MuiDataGrid-root .MuiDataGrid-cell--textCenter {   /* event table to place image on center */
+    /* display: flex;
+    align-items: center;
+} */ 
+
+.css-n3fyjk-MuiDataGrid-root .MuiDataGrid-container--top [role=row]{
+    background-color: lightgray;
+}
+.css-h5fkc8 {
+    margin-top: 0;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #1976d254;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .input {
+    background-color: transparent;
+    border: none;
+    color: var(--text);
+  }

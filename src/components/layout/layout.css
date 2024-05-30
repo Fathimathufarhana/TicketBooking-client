@@ -1,0 +1,14 @@
+.menuList{
+    display: flex;
+}
+.css-r6ewbb-MuiToolbar-root {
+    justify-content: space-between !important;
+}
+
+.css-9jyc04 {
+    background-color: #1976d2;
+}
+.css-r40f8v-MuiTypography-root {
+    color: white;
+    text-align: center;
+}
