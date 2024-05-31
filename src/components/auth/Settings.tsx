@@ -1,14 +1,12 @@
 "use client"
 
-import { useForm, Resolver, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import * as yup from "yup";
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { FormLabel, RadioGroup, Box, Grid, Link, Radio, Select, MenuItem } from '@mui/material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { FormLabel, RadioGroup, Box, Grid, Radio, Select, MenuItem } from '@mui/material'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -31,7 +29,7 @@ const schema = yup.object().shape({
     .min(8, 'Password is too short - should be 8 chars minimum.')
     .matches(passwordRegex, 'Password must contain at least one uppercase letter, one lowercase letter and one number'),
   gender: yup.string(),
-  age: yup.number().min(2),
+  age: yup.number().min(2).max(120),
   phone: yup.object().shape({
     phone_number: yup.number(),
     country_code: yup.string()

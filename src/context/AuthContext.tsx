@@ -4,7 +4,7 @@ import React, { createContext, ReactNode, useEffect } from 'react'
 import { authConfig } from '../config/authConfig'
 import axios from 'axios'
 import url from '@/config/url'
-import { AuthProvider, Login } from './types'
+import type { AuthProvider, Login } from './types'
 
 export const defaultProvider: AuthProvider = {
   login : () => Promise.resolve(),
@@ -33,25 +33,25 @@ const AuthProvider = ({children}: Props) => {
     const headers = { Authorization: `Bearer ${storedToken}` };
     if ( ! storedToken ){
       
-      console.log(pathname, 'pathname')
+      // console.log(pathname, 'pathname')
       if ( pathname !== '/register')  router.push("/login")
       
     } else {
       //make an api call to confirm login  and handle reject case, redirect to login
         const response = axios.post(`${url.serverUrl}/user/test_auth_check`,{},{headers})
         .then(res => {
-          const { access_token , result} = res.data;
+          const { access_token , data} = res.data;
           localStorage.setItem(authConfig.accessToken, access_token)
-          localStorage.setItem('role', result.role)
-          localStorage.setItem('user_id', result._id)
+          localStorage.setItem('role', data.role)
+          localStorage.setItem('user_id', data._id)
         })
         .catch(() => {
           localStorage.removeItem('user_id')
           localStorage.removeItem('role')
           localStorage.removeItem(authConfig.accessToken)
 
-          // const redirectURL = '/login'
-          // router.replace(redirectURL)
+          const redirectURL = '/login'
+          router.replace(redirectURL)
         })
     }
   }
@@ -59,12 +59,12 @@ const AuthProvider = ({children}: Props) => {
   const handleLogin = async (params: Login, error ?: (err: string) => void): Promise<void> => {
     //login api
     axios.post(`${url.serverUrl}/user/login`,params).then(res => {
-      const { access_token , result} = res.data;
+      const { access_token , data} = res.data;
       localStorage.setItem(authConfig.accessToken, access_token)
-      localStorage.setItem('role', result.role)
-      localStorage.setItem('user_id', result._id)
+      localStorage.setItem('role', data.role)
+      localStorage.setItem('user_id', data._id)
       {
-      result.role === "admin" ? router.push("/dashboard") : router.push("/")
+      data.role === "admin" ? router.push("/dashboard") : router.push("/")
       }
     }).catch ( err => {
       if (error) error(err)

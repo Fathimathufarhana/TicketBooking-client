@@ -3,7 +3,7 @@ export interface Event {
   title: string
   time: {
     start_date: Date | null | string
-    end_date: Date | null
+    end_date: Date | null | string
     moment: string
   }
   location: {

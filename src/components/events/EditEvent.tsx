@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Typography, Grid } from "@mui/material";
+import { Button, TextField, Typography, Grid } from "@mui/material";
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux"
-import { fetchAddEvent, fetchEditEvent } from "@/redux/slices/eventSlice";
+import { fetchEditEvent } from "@/redux/slices/eventSlice";
 import { Event } from '@/types/eventTypes';
 import '@/style/style.css'
 
@@ -51,7 +51,7 @@ const EditEvent = ({params}: Props) => {
     resolver: yupResolver(schema)
   });
   
-  const onFormSubmit = async (data:Event) => {
+  const onFormSubmit: SubmitHandler<Event>  = async (data) => {
     console.log(data,"daat in add");
     
     const formDataToSend = new FormData();
@@ -346,6 +346,7 @@ useEffect(() => {
                 color="primary"
                 fullWidth 
                 type="submit" 
+                sx={{ marginTop: '25px' }}
                 onClick={handleSubmit( onFormSubmit )}
               >
                 Submit

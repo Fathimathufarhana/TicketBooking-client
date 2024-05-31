@@ -10,9 +10,10 @@ const QRCodeGenerator = ({ value, size = 256 }) => {
 
     QRCode.toCanvas(canvasRef.current, value, { width: size }, (error) => {
       if (error) console.error('Error generating QR code:', error);
+
+      const dataUrl = canvasRef.current.toDataURL('image/png');
     });
   }, [value, size]);
-
   return (
     <canvas ref={canvasRef} />
   );

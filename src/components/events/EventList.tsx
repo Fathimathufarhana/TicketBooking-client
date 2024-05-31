@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '@/redux/slices/eventSlice';
 import EventCard from '@/components/cards/EventCard';
+import ReactPaginate from 'react-paginate';
+
 
 
 
@@ -22,7 +24,7 @@ const EventList = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [role, setRole] = useState<string | null>("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3)
+  const [postsPerPage] = useState(6)
 
   const router = useRouter()
   const dispatch = useDispatch<any>()
@@ -46,7 +48,13 @@ const EventList = () => {
   const paginate = ({ selected }: Paginate) => {
 		setCurrentPage(selected + 1);
 	};
+
+  const sortByAvailableTickets = (events: any[]) => {
+    return events.sort((b, a) => a.availability - b.availability);
+  };
+
   return (
+
     <>
       <Box className='add-btn container'>
       { 
@@ -89,11 +97,21 @@ const EventList = () => {
 
       </Box>
       <Box className="books container">
-        {fetchEvent.map((items:any, index:string) => {
-            return <EventCard data={items} key={index}/>;
-          })
-        }
+      {sortByAvailableTickets(currentPosts).map((items:any, index:number) => {
+          return <EventCard data={items} key={index}/>;
+        })}
       </Box>
+      <ReactPaginate
+						onPageChange={paginate}
+						pageCount={Math.ceil(fetchEvent.length / postsPerPage)}
+						previousLabel={'Prev'}
+						nextLabel={'Next'}
+						containerClassName={'pagination'}
+						pageLinkClassName={'page-number'}
+						previousLinkClassName={'page-number'}
+						nextLinkClassName={'page-number'}
+						activeLinkClassName={'active'}
+			/>
     </>
   )
 }
