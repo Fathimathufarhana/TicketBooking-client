@@ -1,12 +1,10 @@
 
 "use client"
-import BookEvent from '@/components/events/BookEvent'
 import EditEvent from '@/components/events/EditEvent'
 import url from '@/config/url'
 import { defaultEventData, Event } from '@/types/eventTypes'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 interface Props {
     params: {

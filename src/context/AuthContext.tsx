@@ -23,7 +23,6 @@ const AuthProvider = ({children}: Props) => {
   const router = useRouter()
   const pathname = usePathname()
 
-  // useEffect- call confirmAuth here
   useEffect(() => {
     confirmAuth()
   },[])

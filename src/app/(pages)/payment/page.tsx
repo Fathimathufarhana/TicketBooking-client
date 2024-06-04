@@ -1,4 +1,3 @@
-// pages/checkout.tsx
 
 import Payment from '@/components/payment/payment';
 import { Box, Typography } from '@mui/material';

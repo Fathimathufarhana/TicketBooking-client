@@ -18,7 +18,6 @@ import url from '@/config/url';
 import { User, defaultUserData } from '@/types/userTypes';
 
 
-// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 
 const schema = yup.object().shape({
@@ -140,7 +139,6 @@ useEffect(() => {
                         InputLabelProps={{ shrink: true }}
                         label="First Name"
                         autoFocus
-                        // value={user.first_name}
                         error={Boolean(errors.first_name)}
                         {...(errors.first_name && {helperText:errors.first_name.message})}
                       />
@@ -223,19 +221,18 @@ useEffect(() => {
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
                             name="row-radio-buttons-group"
-                            defaultValue="female"
+                            defaultValue='male'
                         >
                           <FormControlLabel {...register("gender")} 
                             value="female" 
                             control={<Radio />} 
                             label="Female" 
-                            autoFocus
                           />
                           <FormControlLabel {...register("gender")} 
                             value="male" 
                             control={<Radio />} 
                             label="Male" 
-                            />
+                          />
                         </RadioGroup>
                       </Box>
                     )}
@@ -254,13 +251,13 @@ useEffect(() => {
                           labelId="demo-simple-select-label"
                           id="designation"
                           label="Designation"
-                          defaultValue='+91'
+                          defaultValue={91}
                           error={Boolean(errors.phone?.country_code)}
                           {...(errors.phone?.country_code && {helperText:errors.phone?.country_code.message})}
                         >
-                          <MenuItem value="+91">+91</MenuItem>
-                          <MenuItem value="+33">+33</MenuItem>
-                          <MenuItem value="+92">+92</MenuItem>
+                          <MenuItem value={91}>+91</MenuItem>
+                          <MenuItem value={33}>+33</MenuItem>
+                          <MenuItem value={92}>+92</MenuItem>
                         </Select>
                       )}
                     />

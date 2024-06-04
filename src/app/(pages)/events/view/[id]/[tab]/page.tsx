@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-// import BookView from '@/components/book/BookView'
 import Grid from '@mui/material/Grid';
 import EventView from '@/components/events/ViewEvents';
 import axios from 'axios';

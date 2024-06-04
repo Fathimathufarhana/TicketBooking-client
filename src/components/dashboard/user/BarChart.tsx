@@ -56,7 +56,6 @@ const Barchart = () => {
     [ageGroup: string]: number;
   };
   
-  // Aggregate age data into age groups
   const ageGroups: AgeGroups = data.reduce((acc: AgeGroups, user) => {
     if (user.age !== undefined && user.age !== null) {
       const ageGroup = `${Math.floor(user.age / 10) * 10}-${Math.floor(user.age / 10) * 10 + 9}`;
@@ -66,10 +65,9 @@ const Barchart = () => {
   }, {});
   
 
-  // Prepare data for BarChart
   const chartData = Object.keys(ageGroups).map((ageGroup) => ({
     ageGroup,
-    value: ageGroups[ageGroup] || 0, // Ensure no NaN values
+    value: ageGroups[ageGroup] || 0, 
   }));
 
   return (

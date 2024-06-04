@@ -34,7 +34,6 @@ const schema = yup.object().shape({
   phone: yup.object().shape({
     phone_number: yup.string().required('Phone number is required')
       .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
-
     country_code: yup.string().required('Country code is required')
   }),
   address: yup.object().shape({

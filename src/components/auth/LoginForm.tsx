@@ -26,7 +26,6 @@ interface FormValues  {
 }
 
 const LoginForm = () => {
-// const SignIn() {
 const router = useRouter()
 const { login } = useAuth()
 
@@ -128,7 +127,6 @@ const onSubmit = handleSubmit((data) =>{
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

@@ -10,7 +10,6 @@ import { fetchAddEvent } from "@/redux/slices/eventSlice";
 import { Event } from '@/types/eventTypes';
 import '@/style/style.css'
 
-
 const schema = yup.object().shape({
   title: yup.string().required('Event title is required!!'),
   time: yup.object().shape({
@@ -26,11 +25,9 @@ const schema = yup.object().shape({
   price: yup.number().required('Price is required!!'),
 })
 
-
 const CreateEvent = () => {
   const [image, setImage] = useState('');
   const [preview, setPreview] = useState('');
-
 
   const router = useRouter()
   const dispatch = useDispatch<any>()
@@ -41,11 +38,10 @@ const CreateEvent = () => {
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
-  });
+        resolver: yupResolver(schema)
+      });
   
   const onFormSubmit = async (data:Event) => {
-    console.log(data,"daat in add");
     
     const formDataToSend = new FormData();
     formDataToSend.append("title", data.title);
@@ -70,21 +66,22 @@ const CreateEvent = () => {
     setImage(selectedFiles);
   };
 
-  return (
-    <div className="container">
-      <Grid container spacing={2} style={{justifyContent:'center', marginBottom:'20px'}}>
+      return (
+        <div className="container">
+          <Grid container spacing={2} style={{justifyContent:'center', marginBottom:'20px'}}>
 
-          <Grid item xs={12}>
-            <Typography variant="h4" style={{ textAlign: "center", margin: "30px 0 10px 0" }}>
-              Create Event
-            </Typography>
-          </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h4" style={{ textAlign: "center", margin: "30px 0 10px 0" }}>
+                Create Event
+              </Typography>
+            </Grid>
         
             {preview && (
               <Grid item xs={12} sx={{ display: "flex", justifyContent: "center"}}>
                 <img src={preview} alt="Preview" style={{width:"30%"}}/>
               </Grid>
             )}
+
             <Grid item xs={12}  style={{ marginBottom: "20px" }}> {/* image */} 
                 <Controller
                   control={control}
@@ -319,10 +316,10 @@ const CreateEvent = () => {
             >
               Submit
             </Button>
-      </Grid>
-     
-    </div>
-  );
+
+          </Grid>
+        </div>
+      );
 };
 
 export default CreateEvent;

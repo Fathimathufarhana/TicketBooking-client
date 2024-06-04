@@ -36,28 +36,28 @@ const ViewEvents = ({ tab, data }: Props) => {
   return (
 
     <TabContext value={activeTab}>
-    <MuiTabList
-        variant='scrollable'
-        scrollButtons='auto'
-        onChange={handleChange}
-        aria-label='forced scroll tabs example'
-        sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
-    >
-        <Tab value='details' label='Details' />
-        <Tab value='about' label='About'  />
+        <MuiTabList
+            variant='scrollable'
+            scrollButtons='auto'
+            onChange={handleChange}
+            aria-label='forced scroll tabs example'
+            sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
+        >
+            <Tab value='details' label='Details' />
+            <Tab value='about' label='About'  />
 
-    </MuiTabList>
-    <Box sx={{ mt: 4 }}>
+        </MuiTabList>
+        <Box sx={{ mt: 4 }}>
             <>
                 <TabPanel sx={{ p: 0 }} value='details'>
-                   <EventDetailsTab  data={data}/>
+                    <EventDetailsTab  data={data}/>
                 </TabPanel>
                 <TabPanel sx={{ p: 0 }} value='about'>
-                   <EventAboutTab data={data}/>
+                    <EventAboutTab data={data}/>
                 </TabPanel>
             </>
-    </Box>
-</TabContext>
+        </Box>
+    </TabContext>
   );
 }
 

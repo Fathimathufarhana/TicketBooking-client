@@ -1,9 +1,6 @@
 import { Event } from '@/types/eventTypes'
 import { Box, Card, CardContent, CardMedia, Grid, IconButton, Typography } from '@mui/material'
 import React from 'react'
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import { useRouter } from 'next/navigation';
 import {InlineShareButtons} from 'sharethis-reactjs';
 
 interface Props {
@@ -12,9 +9,8 @@ interface Props {
 
 const EventDetailsTab = ({ data }: Props) => {
 
-    const router = useRouter()
   return (
-<>
+    <>
       <Grid item xs={12} padding='10px 30px'>
           <Box>
             <Typography fontSize='26px' fontWeight='bold'>
@@ -39,54 +35,46 @@ const EventDetailsTab = ({ data }: Props) => {
           </Box>
       </Grid>
 
-      {/* <Grid item xs={8}> */}
-        <Card>
-        
-            <CardMedia
-                component="img"
-                height="300"
-                sx={{borderRadius:'10px'}}
-                image={data.image}
-                alt={data.title}
-            />
+      <Card>
+        <CardMedia
+          component="img"
+          height="300"
+          sx={{borderRadius:'10px'}}
+          image={data.image}
+          alt={data.title}
+        />
             
-            <CardContent>
-                <Box textAlign='center'>
+        <CardContent>
+          <Box textAlign='center'>
 
-                    {/* <IconButton aria-label="like">
-                        <FavoriteIcon />
-                    </IconButton> */}
+            <IconButton aria-label="share">
+              <InlineShareButtons
+                config={{
+                  alignment: 'center', 
+                  color: 'social',  
+                  enabled: true,    
+                  font_size: 16,      
+                  labels: null,   
+                  language: 'en',       
+                  networks: [          
+                    'whatsapp',
+                    'messenger',
+                    'facebook',
+                    'twitter',
+                    'linkedin',
+                  ],
+                  padding: 12,      
+                  radius: 4,         
+                  show_total: true,
+                  size: 40,           
+                }}
+              />
+            </IconButton>
 
-                    <IconButton aria-label="share">
-                        <InlineShareButtons
-                          config={{
-                            alignment: 'center', 
-                            color: 'social',  
-                            enabled: true,    
-                            font_size: 16,      
-                            labels: null,   
-                            language: 'en',       
-                            networks: [          
-                              'whatsapp',
-                              'messenger',
-                              'facebook',
-                              'twitter',
-                              'linkedin',
-                            ],
-                            padding: 12,      
-                            radius: 4,         
-                            show_total: true,
-                            size: 40,           
-                          }}
-                        />
-                    </IconButton>
-
-                </Box>
-            </CardContent>
-
-        </Card>
-  
-      </>
+          </Box>
+        </CardContent>
+      </Card>
+    </>
   )
 }
 

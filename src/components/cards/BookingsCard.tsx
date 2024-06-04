@@ -24,7 +24,6 @@ const BookingsCard = ({data}: Data) => {
 
 
     const handleClickOpen = (id: string) => {
-        console.log(id,"my booking id from click")
         setOpen(true);
       };
     
@@ -33,7 +32,7 @@ const BookingsCard = ({data}: Data) => {
       };
 
   return (
-    
+
     <Card sx={{ minWidth: 150, display:'flex' }} >
         <CardContent>
             <Typography variant="h5" component="div">
@@ -53,9 +52,11 @@ const BookingsCard = ({data}: Data) => {
                 })}
             </Typography>
 
-            <Button onClick={()=>{
-                handleClickOpen(data._id)
-            }}>Get QR code</Button>
+            <Button 
+                onClick={()=>{handleClickOpen(data._id)}}
+            >
+                Get QR code
+            </Button>
 
             <Dialog
                 open={open}

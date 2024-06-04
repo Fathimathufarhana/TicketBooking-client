@@ -1,5 +1,5 @@
 import { Event } from '@/types/eventTypes';
-import { Box, Button, Card, Typography, TextField, FormHelperText } from '@mui/material';
+import { Box, Button, Card, Typography, FormHelperText } from '@mui/material';
 import React, { useState } from 'react';
 import EventIcon from '@mui/icons-material/Event';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
@@ -66,34 +66,35 @@ const BookEvent = ({ data }: Props) => {
             <EventIcon fontSize='inherit' />
           </Box>
           <Box marginTop='-20px'>
+
             <Typography color='gray' fontSize='14px'>Date</Typography>
             <Typography fontWeight='bold'>
               {startDate.format('ddd, D MMM')} - {endDate.format('ddd, D MMM')}
             </Typography>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Controller
+              <Controller
                 name="date"
                 control={control}
                 rules={{ required: 'Please choose a date' }}
                 render={({ field }) => (
-                    <>
-                        <DatePicker
-                            label="Choose Date"
-                            shouldDisableDate={disableDates}
-                            value={field.value}
-                            onChange={(date) => field.onChange(date)}
-                        />
-                        {errors.date && (
-                            <FormHelperText error>
-                            {errors.date.message}
-                            </FormHelperText>
-                        )}
-                    </>
+                  <>
+                    <DatePicker
+                      label="Choose Date"
+                      shouldDisableDate={disableDates}
+                      value={field.value}
+                      onChange={(date) => field.onChange(date)}
+                    />
+                    {errors.date && (
+                        <FormHelperText error>
+                        {errors.date.message}
+                        </FormHelperText>
+                    )}
+                  </>
                 )}
-            />
-
+              />
             </LocalizationProvider>
+
           </Box>
         </Box>
 
@@ -101,6 +102,7 @@ const BookEvent = ({ data }: Props) => {
           <Box>
             <ConfirmationNumberIcon fontSize='inherit' />
           </Box>
+
           <Box marginTop='-10px'>
             <Typography fontSize='14px'> Select Tickets </Typography>
             <Box display='flex' columnGap='9pc'>
@@ -110,6 +112,7 @@ const BookEvent = ({ data }: Props) => {
                   <Typography>{counter} Tickets</Typography>
                 }
               </Box>
+
               <Box>
                 <Button onClick={handleClick1} disabled={counter >= data.availability}>
                   <Typography fontSize='20px'>+</Typography>
@@ -119,6 +122,7 @@ const BookEvent = ({ data }: Props) => {
                   <Typography fontSize='20px'>-</Typography>
                 </Button>
               </Box>
+              
             </Box>
           </Box>
         </Box>

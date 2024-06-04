@@ -4,26 +4,10 @@
     /* padding: 16px 14px; */
 }
 
-.upcoming-events{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 55px;
-    padding: 50px 0;
-}
 .container{
     max-width: 1200px;
     margin: 0 auto;
 }
-.section-title{
-    width: 100%;
-    font-size: 45px !important;
-    font-weight: 800 !important;
-    display: flex;
-    justify-content: center;
-}
-
-
 
 .banner {
     background-image: url(../../public/banner.png);
@@ -46,13 +30,9 @@
     text-align: center;
     padding: 5px 20px;
 }
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
 .add-btn{
-        display: flex;
+    display: flex;
     flex-direction: row-reverse;
 }
 

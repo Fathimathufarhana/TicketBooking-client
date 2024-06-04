@@ -2,7 +2,6 @@ import { AuthProvider } from "@/context/AuthContext";
 import Providers from "@/redux/Provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-// import '@/components/global.css'
 
 const inter = Inter({ subsets: ["latin"] });
 

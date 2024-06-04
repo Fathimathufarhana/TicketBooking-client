@@ -100,7 +100,7 @@ const router = useRouter()
                 <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/avatar.jpeg" />
+                <Avatar src="/avatar6.png" />
               </IconButton>
             </Tooltip>
             <Menu
