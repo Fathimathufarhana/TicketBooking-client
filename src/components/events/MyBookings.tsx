@@ -1,5 +1,5 @@
 "use client"
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,11 +18,14 @@ const MyBookings = () => {
         dispatch(fetchMyBookings({ user_id: user }))
     },[])
     return (
-        <Box className="books container">
-            {fetchMyBooking.map((items:any, index:string) => {
-                return <BookingsCard data={items} key={index}/>;
-            })
-            }
+       <Box className="books container">
+            {fetchMyBooking.length === 0 ? (
+                <Typography variant="body1" align="center">No bookings found.</Typography>
+            ) : (
+                fetchMyBooking.map((items: any, index: number) => (
+                    <BookingsCard data={items} key={index} />
+                ))
+            )}
         </Box>
     )
 }

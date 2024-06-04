@@ -1,13 +1,13 @@
 "use client"
 
-import { useForm, Resolver, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import * as yup from "yup";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { FormLabel, RadioGroup, Box, Grid, Link, Radio, Select, MenuItem } from '@mui/material'
+import { FormLabel, RadioGroup, Box, Grid, Link, Radio, Select, MenuItem } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -15,43 +15,41 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from 'axios';
 import { useState } from 'react';
-import "@/style/style.css"
+import "@/style/style.css";
 import url from '@/config/url';
-import { User } from '@/types/userTypes';
 import { useRouter } from 'next/navigation';
 
-
-// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 const schema = yup.object().shape({
   first_name: yup.string().required('First name is required!!'),
   last_name: yup.string().required('Last name is required'),
-  email: yup.string().required('email is required'),
+  email: yup.string().required('Email is required').email('Email must be a valid email address'),
   password: yup.string()
-    .required('No password provided.') 
+    .required('No password provided.')
     .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(passwordRegex, 'Password must contain at least one uppercase letter, one lowercase letter and one number'),
+    .matches(passwordRegex, 'Password must contain at least one uppercase letter, one lowercase letter, and one number'),
   gender: yup.string().required('Gender must be specified'),
   age: yup.number().required('Age is required').min(2),
   phone: yup.object().shape({
-    phone_number: yup.number().required('Phone number is not valid'),
-    country_code: yup.string()
+    phone_number: yup.string().required('Phone number is required')
+      .matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+
+    country_code: yup.string().required('Country code is required')
   }),
   address: yup.object().shape({
-    city: yup.string()!,
-    country: yup.string()!,
-    state: yup.string()!,
-    pin_code: yup.number()!,
+    city: yup.string().required('City is required'),
+    country: yup.string().required('Country is required'),
+    state: yup.string().required('State is required'),
+    pin_code: yup.string().required('Pin code is required').matches(/^\d{6}$/, 'Pin code must be 6 digits')
   }),
-})
+});
 
 const defaultTheme = createTheme();
 
 const SignUp = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
-    register,
     control,
     handleSubmit,
     formState: { errors },
@@ -59,38 +57,29 @@ const SignUp = () => {
     resolver: yupResolver(schema)
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     try {
-      axios.post(`${url.serverUrl}/user/register`, data)
-      // router.push('/login')
-      // console.log("first regsiter ok")
-    // } catch (error) {
-    //   if (axios.isAxiosError(error) && error.response?.status === 409) {
-    //     setErrorMessage("There was an error registering the user.");
-    //   } else {
-    //     setErrorMessage("A user with this email already exists.");
-    //   }
-    // }
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      setErrorMessage(error.response.data.message || "There was an error registering the user.");
-    } else {
-      setErrorMessage("There was an error registering the user.");
+      await axios.post(`${url.serverUrl}/user/register`, data);
+      router.push('/login');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log('Error response:', error.response); 
+        setErrorMessage(error.response.data.message || "There was an error registering the user.");
+      } else {
+        setErrorMessage("There was an error registering the user.");
+      }
     }
-  }
-    
-  })
-
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="md">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            margin: 8 ,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -107,267 +96,222 @@ const SignUp = () => {
               {errorMessage}
             </Typography>
           )}
-
           <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-
-                <Grid item xs={12} sm={6}>  {/* first name */}
-                  <Controller
-                    control={control}
-                    name="first_name"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('first_name')}
-                        autoComplete="given-name"
-                        name="first_name"
-                        fullWidth
-                        id="first_name"
-                        InputLabelProps={{ shrink: true }}
-                        label="First Name"
-                        autoFocus
-                        error={Boolean(errors.first_name)}
-                        {...(errors.first_name && {helperText:errors.first_name.message})}
-                      />
-                    )}
-                  />
-                </Grid>
-  
-                <Grid item xs={12} sm={6}>  {/* last name */}
-                  <Controller
-                    control={control}
-                    name="last_name"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('last_name')}
-                        fullWidth
-                        id="last_name"
-                        label="Last Name"
-                        InputLabelProps={{ shrink: true }}
-                        name="last_name"
-                        autoComplete="family-name"
-                        error={Boolean(errors.last_name)}
-                        {...(errors.last_name && {helperText:errors.last_name.message})}
-                      />
-                    )}
-                  />
-                </Grid>
-  
-                <Grid item xs={12}>  {/* email */}
-                  <Controller
-                    control={control}
-                    name="email"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <>
-                      <TextField {...register('email')}
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        InputLabelProps={{ shrink: true }}
-                        name="email"
-                        type='email'
-                        autoComplete="email"
-                        error={Boolean(errors.email)}
-                        {...(errors.email && {helperText:errors.email.message})}
-                      />
-                      </>
-                    )}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>  {/* password */}
-                  <Controller
-                    control={control}
-                    name="password"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('password')}
-                        fullWidth
-                        id="password"
-                        label="Password"
-                        InputLabelProps={{ shrink: true }}
-                        name="password"
-                        error={Boolean(errors.password)}
-                        {...(errors.password && {helperText:errors.password.message})}
-                      />
-                    )}
-                  />
-                </Grid>
-                 
-                <Grid item xs={12}>  {/* age */}
-                  <Controller
-                    control={control}
-                    name="age"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('age')}
-                        fullWidth
-                        name="age"
-                        label="Age"
-                        InputLabelProps={{ shrink: true }}
-                        type="number"
-                        id="age"
-                        error={Boolean(errors.age)}
-                        {...(errors.age && {helperText:errors.age.message})}
-                      />
-                    )}
-                  />
-                </Grid> 
-                
-                <Grid item xs={12}>  {/* gender */}
+              <Grid item xs={12} sm={6}>
                 <Controller
-                    control={control}
-                    name="gender"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <Box>
-                        <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
-                        <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            defaultValue="female"
-                        >
-                          <FormControlLabel {...register("gender")} 
-                            value="female" 
-                            control={<Radio />} 
-                            label="Female" 
-                            autoFocus
-                          />
-                          <FormControlLabel {...register("gender")} 
-                            value="male" 
-                            control={<Radio />} 
-                            label="Male" 
-                            />
-                        </RadioGroup>
-                      </Box>
-                    )}
+                  control={control}
+                  name="first_name"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="first_name"
+                      label="First Name"
+                      autoComplete="given-name"
+                      autoFocus
+                      error={Boolean(errors.first_name)}
+                      helperText={errors.first_name?.message}
                     />
-                </Grid>
-
-                <Grid item xs={12} display="flex">   {/* phone */}
-                  <Grid item xs={3}>
-                    <Controller
-                      control={control}
-                      name="phone.country_code"
-                      rules={{ required: true }}
-                      render={({ field: { ref, ...field } }) => (
-                        <Select
-                          {...register('phone.country_code')}
-                          labelId="demo-simple-select-label"
-                          id="designation"
-                          label="Designation"
-                          defaultValue='+91'
-                          error={Boolean(errors.phone?.country_code)}
-                          {...(errors.phone?.country_code && {helperText:errors.phone?.country_code.message})}
-                        >
-                          <MenuItem value="+91">+91</MenuItem>
-                          <MenuItem value="+33">+33</MenuItem>
-                          <MenuItem value="+92">+92</MenuItem>
-                        </Select>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="last_name"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="last_name"
+                      label="Last Name"
+                      autoComplete="family-name"
+                      error={Boolean(errors.last_name)}
+                      helperText={errors.last_name?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      autoComplete="email"
+                      error={Boolean(errors.email)}
+                      helperText={errors.email?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="password"
+                      label="Password"
+                      type="password"
+                      error={Boolean(errors.password)}
+                      helperText={errors.password?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="age"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="age"
+                      label="Age"
+                      type="number"
+                      error={Boolean(errors.age)}
+                      helperText={errors.age?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({ field }) => (
+                    <Box>
+                      <FormLabel>Gender</FormLabel>
+                      <RadioGroup
+                        row
+                        {...field}
+                        defaultValue="female"
+                      >
+                        <FormControlLabel value="female" control={<Radio />} label="Female" />
+                        <FormControlLabel value="male" control={<Radio />} label="Male" />
+                      </RadioGroup>
+                      {errors.gender && (
+                        <Typography color="error" variant="body2">
+                          {errors.gender.message}
+                        </Typography>
                       )}
-                    />
-                  </Grid>
-
-                  <Grid item xs={9}>
-                    <Controller
-                      control={control}
-                      name="phone.phone_number"
-                      rules={{ required: true }}
-                      render={({ field: { ref, ...field } }) => (
-                        <TextField {...register('phone.phone_number')}
-                          fullWidth
-                          label="phone_number"
-                          InputLabelProps={{ shrink: true }}
-                          type="number"
-                          id="phone_number"
-                          error={Boolean(errors.phone?.phone_number)}
-                          {...(errors.phone?.phone_number && {helperText:errors.phone.phone_number.message})}
-                        />
-                      )}
-                    />
-                  </Grid>
-                </Grid>
-
-
-                <Grid item xs={12} sm={6}>  {/* city */}
+                    </Box>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} display="flex">
+                <Grid item xs={3}>
                   <Controller
                     control={control}
-                    name="address.city"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('address.city')}
+                    name="phone.country_code"
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        defaultValue='+91'
                         fullWidth
-                        label="City"
-                        InputLabelProps={{ shrink: true }}
-                        type="string"
-                        id="city"
-                        error={Boolean(errors.address?.city)}
-                        {...(errors.address?.city && {helperText:errors.address?.city.message})}
-                      />
+                        error={Boolean(errors.phone?.country_code)}
+                        displayEmpty
+                      >
+                        <MenuItem value="+91">+91</MenuItem>
+                        <MenuItem value="+33">+33</MenuItem>
+                        <MenuItem value="+92">+92</MenuItem>
+                      </Select>
                     )}
                   />
                 </Grid>
-
-                <Grid item xs={12} sm={6}>  {/* state */}
+                <Grid item xs={9}>
                   <Controller
                     control={control}
-                    name="address.state"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('address.state')}
+                    name="phone.phone_number"
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
                         fullWidth
-                        label="State"
-                        InputLabelProps={{ shrink: true }}
-                        type="string"
-                        id="state"
-                        error={Boolean(errors.address?.state)}
-                        {...(errors.address?.state && {helperText:errors.address?.state.message})}
-                      />
-                    )}
-                  />
-                </Grid>
-               
-                <Grid item xs={6}> {/* pin */}
-                  <Controller
-                    control={control}
-                    name="address.pin_code"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('address.pin_code')}
-                        fullWidth
-                        label="Pin code"
-                        InputLabelProps={{ shrink: true }}
+                        id="phone_number"
+                        label="Phone Number"
                         type="number"
-                        id="pin"
-                        error={Boolean(errors.address?.pin_code)}
-                        {...(errors.address?.pin_code && {helperText:errors.address?.pin_code.message})}
+                        error={Boolean(errors.phone?.phone_number)}
+                        helperText={errors.phone?.phone_number?.message}
                       />
                     )}
                   />
                 </Grid>
-
-                <Grid item xs={6}>  {/* country */}
-                  <Controller
-                    control={control}
-                    name="address.country"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('address.country')}
-                        fullWidth
-                        label="Country"
-                        InputLabelProps={{ shrink: true }}
-                        type="string"
-                        id="country"
-                        error={Boolean(errors.address?.country)}
-                        {...(errors.address?.country && {helperText:errors.address?.country.message})}
-                      />
-                    )}
-                  />
-                </Grid>
-  
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="address.city"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="city"
+                      label="City"
+                      error={Boolean(errors.address?.city)}
+                      helperText={errors.address?.city?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="address.state"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="state"
+                      label="State"
+                      error={Boolean(errors.address?.state)}
+                      helperText={errors.address?.state?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="address.pin_code"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="pin_code"
+                      label="Pin Code"
+                      type="number"
+                      error={Boolean(errors.address?.pin_code)}
+                      helperText={errors.address?.pin_code?.message}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  control={control}
+                  name="address.country"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="country"
+                      label="Country"
+                      error={Boolean(errors.address?.country)}
+                      helperText={errors.address?.country?.message}
+                    />
+                  )}
+                />
+              </Grid>
             </Grid>
-            
             <Button
               type="submit"
               fullWidth
@@ -376,7 +320,6 @@ const SignUp = () => {
             >
               Sign Up
             </Button>
-
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
@@ -384,7 +327,6 @@ const SignUp = () => {
                 </Link>
               </Grid>
             </Grid>
-            
           </Box>
         </Box>
       </Container>
@@ -392,4 +334,4 @@ const SignUp = () => {
   );
 }
 
-export default SignUp
+export default SignUp;

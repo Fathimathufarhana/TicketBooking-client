@@ -1,18 +1,16 @@
 "use client"
 import url from '@/config/url';
+import { User } from '@/types/userTypes';
 import { PieChart } from '@mui/x-charts/PieChart';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// interface Gender {
-//     gender: string[]
-// }
 
 const Piechart = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<User[]>([]);
+  console.log(data,'usr piechart')
 
   useEffect(() => {
-    // console.log('Fetching data for pie chart');
     
     const fetchData = async () => {
       try {
@@ -38,15 +36,18 @@ const Piechart = () => {
     fetchData();
   }, []);
 
-  // Aggregate gender data
-  const genderCounts = data.reduce((acc, user) => {
+  type GenderCounts = {
+    [gender: string]: number;
+  };
+  
+  const genderCounts: GenderCounts = data.reduce((acc, user) => {
     if (user.gender) {
       acc[user.gender] = (acc[user.gender] || 0) + 1;
     }
     return acc;
-  }, {});
+  }, {} as GenderCounts);
+  
 
-  // Prepare data for PieChart
   const chartData = Object.keys(genderCounts).map((gender, index) => ({
     id: index,
     value: genderCounts[gender],

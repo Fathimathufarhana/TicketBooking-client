@@ -1,52 +1,45 @@
-// "use client"
-// import axios from 'axios'
-// import { Box } from "@mui/material"
-// import React, { useEffect, useState } from 'react'
-// // import PopularBookCard from '@/components/PopularBookCard';
-// // import "./card.css"
-// import url from '@/config/url';
-// import { defaultEventData, Event } from '@/types/eventTypes'
-// import UpcomingEventCard from '../cards/UpcomingEventCard'
-// import { useSelector } from 'react-redux';
+'use client'
+import { useEffect, useState } from 'react';
+import { Box } from "@mui/material";
+import UpcomingEventCard from "../cards/UpcomingEventCard";
+import url from '@/config/url'; 
+import axios from 'axios';
 
-// const UpcomingEvents = () => {
-//     const [upcomingEvents , setUpcomingEvents] = useState<Event[]>()
-//     // const [fetchEvents, setFetchEvents] = useState<Event[]>(defaultEventData)
-//   const fetchEvent = useSelector((state:any) => state.allEvents.eventData)
+const UpcomingEvents = () => {
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
 
+    useEffect(() => {
+        const fetchEventsData = async () => {
+            try {
+            const storedToken = localStorage.getItem("access_token")!
+                const response = await axios.post(`${url.serverUrl}/events/list`,
+            { headers:{ Authorization: `Bearer ${storedToken}` } }
+            );
+                if (!response) {
+                   console.log('Failed to fetch events');
+                }
+                const data = response.data
+                console.log(data,'data')
+                // Assuming data is an array of events, update state with fetched events
+                setUpcomingEvents(data);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        };
 
-//   const storedToken = localStorage.getItem("access_token");
-//   const headers = { Authorization: `Bearer ${storedToken}` };
+        fetchEventsData();
+    }, []);
 
-// //   const fetchEventsData =  () => {
-// //           axios.post(`${url.serverUrl}/events/list`,null,
-// //           {headers})
-// //           .then((res) => {
-// //             const fetchData = res.data
-// //             setFetchEvents(fetchData.data);
-// //           })
-// //   };
+    return ( 
+        <Box sx={{ 
+            display: 'flex' ,
+            gap: "30px"
+        }}>
+            {upcomingEvents.map((event, index) => (
+                <UpcomingEventCard data={event} key={index} />
+            ))}
+        </Box>
+    );
+}
 
-// //   useEffect(() => {
-// //     fetchEventsData()
-// //   },[])
-  
-//   useEffect(() => {
-//     const filteredList = fetchEvent.sort((a:any,b:any) => b.star_rating - a.star_rating  ).slice(0, 2)
-//     setUpcomingEvents(filteredList)
-//   },[fetchEvent])
-
-
-//   return ( 
-//     <Box sx={{ 
-//         display: 'flex' ,
-//         gap: "30px"
-//     }}>
-//         {upcomingEvents?.map((items:Event, index:number) => {
-//             return <UpcomingEventCard data={items} key={index} />;
-//         })}
-//     </Box>
-//   )
-// }
-
-// export default UpcomingEvents
+export default UpcomingEvents;

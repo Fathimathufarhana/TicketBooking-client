@@ -33,6 +33,7 @@
      padding: 9pc 0px; 
      object-fit: cover;
      margin-top: 20px;
+     margin-bottom: 160px;
   }
 
 .books{
@@ -40,7 +41,6 @@
     grid-template-columns: 1fr 1fr 1fr ;
     gap: 15px;
     padding: 70px 0;
-
 }
 .info{
     text-align: center;

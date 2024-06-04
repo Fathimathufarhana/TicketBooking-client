@@ -5,8 +5,29 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import url from '@/config/url';
 import { Card, CardHeader } from '@mui/material';
 
+interface TicketData {
+  _id: string
+  date: Date
+  tickets: number
+  event: { 
+    price: number
+    title: string
+    time: {
+      start_date: Date
+      end_date: Date
+      moment: string
+    }
+  }
+  user: {
+    email: string
+    first_name: string
+    last_name: string
+  }
+}
+
 const EventPopularity = () => {
-  const [ticketData, setTicketData] = useState<any[]>([]);
+  const [ticketData, setTicketData] = useState<TicketData[]>([]);
+  console.log(ticketData,'eventpop')
 
   useEffect(() => {
     const fetchTicketData = async () => {
@@ -38,29 +59,24 @@ const EventPopularity = () => {
     processTicketData(ticketData);
   }, [ticketData]);
 
-  const processTicketData = (data: any[]) => {
-    // Aggregate ticket sales by event
+  const processTicketData = (data: TicketData[]) => {
     const eventCounts: { [eventName: string]: number } = data.reduce((acc, ticket) => {
       if (ticket.event && ticket.event.title) {
         const eventName = ticket.event.title;
         acc[eventName] = (acc[eventName] || 0) + ticket.tickets;
       }
       return acc;
-    }, {});
-
-    console.log('Event Counts:', eventCounts);
-
-    // Prepare data for PieChart
+    }, {} as { [eventName: string]: number });
+  
     const chartData = Object.keys(eventCounts).map((eventName, index) => ({
       id: index,
-      value: eventCounts[eventName] || 0, // Ensure no NaN values
+      value: eventCounts[eventName] || 0,
       label: eventName,
     }));
-
-    console.log('Chart Data:', chartData);
-
+  
     return chartData;
   };
+  
 
   return (
     <div>
@@ -80,7 +96,7 @@ const EventPopularity = () => {
             },
           ]}
           width={700}
-          height={200}
+          height={300}
         />
       ) : (
         <div>No data available</div>

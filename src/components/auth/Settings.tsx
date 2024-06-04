@@ -108,7 +108,7 @@ useEffect(() => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth='md'>
         <CssBaseline />
         <Box
           sx={{
@@ -116,6 +116,7 @@ useEffect(() => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            maxWidth: '950px'
           }}
         >
           <Typography component="h1" variant="h5">
@@ -167,7 +168,7 @@ useEffect(() => {
                   />
                 </Grid>
   
-                <Grid item xs={12}>  {/* email */}
+                <Grid item xs={12} sm={6}>  {/* email */}
                   <Controller
                     control={control}
                     name="email"
@@ -189,27 +190,8 @@ useEffect(() => {
                     )}
                   />
                 </Grid>
-
-                <Grid item xs={12}>  {/* password */}
-                  <Controller
-                    control={control}
-                    name="password"
-                    rules={{ required: true }}
-                    render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('password')}
-                        fullWidth
-                        id="password"
-                        label="Password"
-                        InputLabelProps={{ shrink: true }}
-                        name="password"
-                        error={Boolean(errors.password)}
-                        {...(errors.password && {helperText:errors.password.message})}
-                      />
-                    )}
-                  />
-                </Grid>
                  
-                <Grid item xs={12}>  {/* age */}
+                <Grid item xs={12} sm={6}>  {/* age */}
                   <Controller
                     control={control}
                     name="age"
@@ -229,7 +211,7 @@ useEffect(() => {
                   />
                 </Grid> 
                 
-                <Grid item xs={12}>  {/* gender */}
+                <Grid item xs={12} sm={6}>  {/* gender */}
                 <Controller
                     control={control}
                     name="gender"
@@ -260,7 +242,7 @@ useEffect(() => {
                     />
                 </Grid>
 
-                <Grid item xs={12} display="flex">   {/* phone */}
+                <Grid item xs={12} sm={6} display="flex">   {/* phone */}
                   <Grid item xs={3}>
                     <Controller
                       control={control}
@@ -343,7 +325,7 @@ useEffect(() => {
                   />
                 </Grid>
                
-                <Grid item xs={6}> {/* pin */}
+                <Grid item xs={12} sm={6}> {/* pin */}
                   <Controller
                     control={control}
                     name="address.pin_code"
@@ -362,7 +344,7 @@ useEffect(() => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>  {/* country */}
+                <Grid item xs={12} sm={6}>  {/* country */}
                   <Controller
                     control={control}
                     name="address.country"

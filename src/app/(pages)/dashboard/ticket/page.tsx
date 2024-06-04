@@ -4,7 +4,8 @@ import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import url from '@/config/url';
-import { format, startOfWeek, addWeeks } from 'date-fns'; // Import date-fns for date manipulation
+import { format, startOfWeek } from 'date-fns'; // for date manipulation
+import type { Ticket } from '@/types/ticketTypes';
 
 const valueFormatter = (value: number | null) => `${value} tickets`;
 
@@ -24,14 +25,15 @@ const chartSetting = {
 };
 
 const Ticket = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Ticket[]>([]);
+  console.log(data,'ticket')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const storedToken = localStorage.getItem("access_token");
         const response = await axios.post(
-          `${url.serverUrl}/booking/details`, // Assuming the endpoint is /ticket/list
+          `${url.serverUrl}/booking/details`,
           {},
           {
             headers: { Authorization: `Bearer ${storedToken}` }
@@ -51,29 +53,28 @@ const Ticket = () => {
     fetchData();
   }, []);
 
-  // console.log('Fetched data:', data);
-
-  // Aggregate ticket data into weeks
-  const ticketDataByWeek = data.reduce((acc, ticket) => {
+  type TicketDataByWeek = {
+    [weekStart: string]: number;
+  };
+  
+  const ticketDataByWeek: TicketDataByWeek = data.reduce((acc, ticket) => {
     if (ticket.date) {
       const weekStart = format(startOfWeek(new Date(ticket.date)), 'MM-dd-yyyy');
       acc[weekStart] = (acc[weekStart] || 0) + 1;
     }
     return acc;
-  }, {});
+  }, {} as TicketDataByWeek);
+  
 
-  // Prepare data for BarChart
   const chartData = Object.keys(ticketDataByWeek).map((weekStart) => ({
     weekStart,
     value: ticketDataByWeek[weekStart] || 0, 
   }));
 
-  // console.log('Chart data:', chartData);
-
   return (
     <div style={{ width: '100%' }}>
       <BarChart
-        dataset={chartData}
+        dataset={chartData} 
         xAxis={[
           { scaleType: 'band', dataKey: 'weekStart' },
         ]}

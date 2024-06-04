@@ -2,8 +2,8 @@
 import { Box, Grid, Typography } from "@mui/material";
 import "../style/style.css"
 import Header from "@/components/layout/header/Header";
-import CurrentLocation from "@/components/location/Currentlocation";
 import Footer from "@/components/layout/footer/Footer";
+import UpcomingEvents from "@/components/events/UpcomingEvents";
 
 
 export default function Home() {
@@ -14,11 +14,10 @@ export default function Home() {
       <Box className="banner"></Box>
     </Grid>
 
-    <Box className='upcoming-events container'>
+    {/* <Box className='upcoming-events container'>
       <Typography className='section-title'>Upcoming Events</Typography>
-      {/* <UpcomingEvents/> */}
-    </Box>
-<CurrentLocation />
+      <UpcomingEvents />
+    </Box> */}
 <Footer />
 </Box>
   );

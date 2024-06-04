@@ -1,5 +1,4 @@
 "use client"
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,12 +15,13 @@ import Navigation from './Navigation';
 import "@/components/layout/layout.css"
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
 
 const pages = ['Home', 'About', 'Books'];
 
-function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const Header = () => {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const { logout } = useAuth()
 
@@ -134,4 +134,4 @@ const router = useRouter()
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;

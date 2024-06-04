@@ -1,7 +1,9 @@
 
+import { Box, Button, Dialog, DialogContent } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 
 interface Data {
    data: {
@@ -13,12 +15,25 @@ interface Data {
         _id: string
     }
     tickets: number
+    qrCodePath: string
    }
 }
 
 const BookingsCard = ({data}: Data) => {
-    console.log(data,"BookingsCard")
+    const [open, setOpen] = useState(false);
+
+
+    const handleClickOpen = (id: string) => {
+        console.log(id,"my booking id from click")
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
+
   return (
+    
     <Card sx={{ minWidth: 150, display:'flex' }} >
         <CardContent>
             <Typography variant="h5" component="div">
@@ -37,6 +52,24 @@ const BookingsCard = ({data}: Data) => {
                     day: 'numeric',
                 })}
             </Typography>
+
+            <Button onClick={()=>{
+                handleClickOpen(data._id)
+            }}>Get QR code</Button>
+
+            <Dialog
+                open={open}
+                keepMounted
+                onClose={handleClose}
+            >
+                <DialogContent>
+                    <Box 
+                        component='img'
+                        src={data.qrCodePath}
+                        alt='qrcode'
+                    />
+                </DialogContent>
+            </Dialog>
         </CardContent>
     </Card>
   );

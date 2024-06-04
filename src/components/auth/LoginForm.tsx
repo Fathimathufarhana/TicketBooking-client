@@ -15,8 +15,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
-import axios from 'axios';
-import url from '@/config/url';
 import { useAuth } from '@/hooks/useAuth';
 
 

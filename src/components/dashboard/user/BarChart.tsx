@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import url from '@/config/url';
+import { User } from '@/types/userTypes';
 
 const valueFormatter = (value: number | null) => `${value} users`;
 
@@ -23,7 +24,8 @@ const chartSetting = {
 };
 
 const Barchart = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<User[]>([]);
+  console.log(data,'Barchart')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,24 +52,25 @@ const Barchart = () => {
     fetchData();
   }, []);
 
-//   console.log('Fetched data:', data);
-
+  type AgeGroups = {
+    [ageGroup: string]: number;
+  };
+  
   // Aggregate age data into age groups
-  const ageGroups = data.reduce((acc, user) => {
+  const ageGroups: AgeGroups = data.reduce((acc: AgeGroups, user) => {
     if (user.age !== undefined && user.age !== null) {
       const ageGroup = `${Math.floor(user.age / 10) * 10}-${Math.floor(user.age / 10) * 10 + 9}`;
       acc[ageGroup] = (acc[ageGroup] || 0) + 1;
     }
     return acc;
   }, {});
+  
 
   // Prepare data for BarChart
   const chartData = Object.keys(ageGroups).map((ageGroup) => ({
     ageGroup,
     value: ageGroups[ageGroup] || 0, // Ensure no NaN values
   }));
-
-  console.log('Chart data:', chartData);
 
   return (
     <div style={{ width: '100%' }}>

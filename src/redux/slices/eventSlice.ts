@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@/redux/store"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../store";
 import url from "@/config/url";
@@ -60,7 +59,6 @@ interface Event_id {
 
     export const fetchAddEvent = ( formDataToSend: FormData ):
     AppThunk => async(dispatch) => {
-        // try {
             const storedToken = localStorage.getItem("access_token")!;
         const response = await axios.post(`${url.serverUrl}/events/create`,formDataToSend, {
             headers:{ Authorization: `Bearer ${storedToken}` }
@@ -68,9 +66,6 @@ interface Event_id {
         console.log("fetchAddEvent")
             console.log(response.data.data,"fetchAddEvent")
             dispatch(addEvent(response.data.data)) 
-        // } catch (error) {
-        //     console.log(error)
-        // }
        
     }
 
@@ -79,9 +74,8 @@ interface Event_id {
 
             const storedToken = localStorage.getItem("access_token")!
             const response = await axios.post(`${url.serverUrl}/events/list`, params,
-            { headers:{ Authorization: `Bearer ${storedToken}` } }
+                { headers:{ Authorization: `Bearer ${storedToken}` } }
             );
-        //   console.log(response.data.data,"fetchEvents")
             dispatch(listEvents(response.data.data))
         }
    
@@ -89,10 +83,9 @@ interface Event_id {
     AppThunk<Promise<void>> => async( dispatch ) => {
         const storedToken = localStorage.getItem("access_token")!
         const response = await axios.patch(`${url.serverUrl}/events/edit` , 
-        formDataToSend ,
-        { headers:{ Authorization: `Bearer ${storedToken}` } }
+            formDataToSend ,
+            { headers:{ Authorization: `Bearer ${storedToken}` } }
         );
-        console.log(response.data.data,"editEvent")
         dispatch(editEvent(response.data.data))
     }
 

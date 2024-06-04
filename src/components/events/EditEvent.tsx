@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import { fetchEditEvent } from "@/redux/slices/eventSlice";
 import { Event } from '@/types/eventTypes';
 import '@/style/style.css'
+import type { FormData } from "@/types/formDataTypes";
 
 const schema = yup.object().shape({
   title: yup.string().required('Event title is required!!'),
@@ -51,7 +52,7 @@ const EditEvent = ({params}: Props) => {
     resolver: yupResolver(schema)
   });
   
-  const onFormSubmit: SubmitHandler<Event>  = async (data) => {
+  const onFormSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data,"daat in add");
     
     const formDataToSend = new FormData();
@@ -81,8 +82,8 @@ const EditEvent = ({params}: Props) => {
     reset({
       title: data.title,
       time: {
-        start_date: data.time.start_date,
-        end_date: data.time.end_date,
+        start_date: data.time.start_date ? data.time.start_date.toString() : '',
+        end_date: data.time.end_date ? data.time.end_date.toString() : '',        
         moment: data.time.moment,
       },
       description: data.description,

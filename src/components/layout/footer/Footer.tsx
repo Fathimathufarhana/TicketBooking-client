@@ -42,9 +42,6 @@ const Footer = () => {
           }}
         >
           <Container maxWidth="sm" sx={{ color: 'white' }}>
-            {/* <Typography variant="body1">
-              My sticky footer can be found here.
-            </Typography> */}
             <Copyright />
           </Container>
         </Box>

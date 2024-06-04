@@ -1,22 +1,8 @@
-// import BookingList from '@/components/admin/bookingData/BookingList'
-// import React from 'react'
-
-// const Events = () => {
-//   return (
-//     <BookingList />
-//   )
-// }
-
-// export default Events
-
-
 
 "use client"
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchDeleteEmployee, fetchEmployees } from '@/redux/slices/employeeSlice';
-import { Box, Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-// import AddEmployee from '@/components/employee/AddEmployee';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
@@ -42,7 +28,7 @@ const Events = () => {
 
     const handleDelete = async (event_id : string) => {
         await dispatch(fetchDeleteEvent({ event_id }))
-        dispatch(fetchEvents({ q:searchValue, price:priceFilter }))
+        dispatch(fetchEvents({ q: searchValue, price: priceFilter }))
     }
 
     const columns: GridColDef[] = [
@@ -54,9 +40,9 @@ const Events = () => {
                 return(
                     <div style={{ alignContent:"center", display:'flex', flexWrap:"wrap"}}>
                         <img 
-                        src={fetchEvent.row.image} 
-                        alt="employee" 
-                        style={{width:"50px", height:"50px", borderRadius:"50%"}} 
+                            src={fetchEvent.row.image} 
+                            alt="employee" 
+                            style={{width:"50px", height:"50px", borderRadius:"50%"}} 
                         />
                     </div>
                 )
@@ -95,14 +81,16 @@ const Events = () => {
                 )
             }
         },
-        { field:"moment", headerName:"Time", width:80, headerAlign:"center", align:"center",
+        { field:"moment", headerName:"Time", width:90, headerAlign:"center", align:"center",
             renderCell: (fetchEvent) => {
-                return(
-                    (fetchEvent.row.time.moment)
-                )
+                const [hours, minutes] = fetchEvent.row.time.moment.split(":");
+                const currentDate = new Date();
+                currentDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                const formattedTime = currentDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+                return formattedTime;
             }
         },
-        { field:"actions", headerName:"Action", width:200, headerAlign:"center", align:"center",
+        { field:"actions", headerName:"Action", width:180, headerAlign:"center", align:"center",
             renderCell: (fetchEvent) => {
                 return(
                     <>
@@ -124,25 +112,16 @@ const Events = () => {
     <Box>
 
       <Box display="flex" justifyContent="space-between" margin="15px" alignItems="center">
-        {/* <TextField
-          id="search"
-          name="search"
-          label="Search"
-          sx={{ width: "30%" }}
-          onChange={(e)=> setSearchValue(e.target.value)}
-        /> */}
-        <div className='search'>
+        <Box className='search'>
           <SearchIcon />
           <input type="text" placeholder="Search..." className='input' />
-        </div>
+        </Box>
           <FormControl 
-        //   className='search'
           variant="filled"
           sx={{ m: 1 ,width: "300px" }}
         >
           <InputLabel id="demo-simple-select-label">All Price</InputLabel>
             <Select
-                // className='input'
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               onChange={(e)=> setPriceFilter(e.target.value as number)}
@@ -161,11 +140,6 @@ const Events = () => {
         </Button>
       </Box>
 
-      {/* <AddEmployee
-        open={ open } 
-        handleClose={ handleClose } 
-      /> */}
-
       <DataGrid
         rowHeight={100}
         columns={columns}
@@ -176,7 +150,6 @@ const Events = () => {
         }}
         pageSizeOptions={[3, 5, 10]}
       />
-      {/* <BookingList/> */}
     </Box>
     
   );

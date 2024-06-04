@@ -1,10 +1,8 @@
 
 "use client"
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchDeleteEmployee, fetchEmployees } from '@/redux/slices/employeeSlice';
-import { Box, Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-// import AddEmployee from '@/components/employee/AddEmployee';
+import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
@@ -15,28 +13,27 @@ import { fetchBookings } from '@/redux/slices/bookingSlice';
 
 const BookingList = () => {
 
-    const router = useRouter()
     const dispatch = useDispatch<any>()
     const BookingDetails = useSelector((state:RootState) => state.allBookings.eventBookingData)
 
     
     useEffect(() => {
         dispatch(fetchBookings())
-    },[])
+    },[BookingDetails])
 
 
     const columns: GridColDef[] = [
         { field:"_id", headerName:"Id", width:50, headerAlign:"center", align:"center",
             renderCell: (params) => params.api.getAllRowIds().indexOf(params.id)+1
         },
-        { field:"title", headerName:"Event Name", width:100, headerAlign:"center", align:"center",
+        { field:"title", headerName:"Event Name", width:150, headerAlign:"center", align:"center",
             renderCell: (fetchBooking) => {
                 return(
                     (fetchBooking.row.event.title)
                 )
             }
         },
-        { field:"date", headerName:"Booked Date", width:200, headerAlign:"center", align:"center",
+        { field:"date", headerName:"Booked Date", width:150, headerAlign:"center", align:"center",
             renderCell: (fetchBooking) => {
                 return(
                     <>
@@ -50,11 +47,13 @@ const BookingList = () => {
             }
         },
         { field:"tickets", headerName:"Tickets", width:80, headerAlign:"center", align:"center"},
-        { field:"time", headerName:"Time", width:80, headerAlign:"center", align:"center",
+        { field:"time", headerName:"Time", width:100, headerAlign:"center", align:"center",
             renderCell: (fetchBooking) => {
-                return(
-                    (fetchBooking.row.event.time.moment)
-                )
+                const [hours, minutes] = fetchBooking.row.event.time.moment.split(":");
+                const currentDate = new Date();
+                currentDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                const formattedTime = currentDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+                return formattedTime;
             }
         },
         { field:"price", headerName:"Price", width:80, headerAlign:"center", align:"center",
@@ -67,14 +66,14 @@ const BookingList = () => {
         { field:"first_name", headerName:"Booked by", width:100, headerAlign:"center", align:"center",
             renderCell: (fetchBooking) => {
                 return(
-                    (fetchBooking.row.user.first_name)
+                    (fetchBooking.row.user?.first_name)
                 )
             }
         },
-        { field:"email", headerName:"email", width:150, headerAlign:"center", align:"center",
+        { field:"email", headerName:"email", width:200, headerAlign:"center", align:"center",
             renderCell: (fetchBooking) => {
                 return(
-                    (fetchBooking.row.user.email)
+                    (fetchBooking.row.user?.email)
                 )
             }
         },

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react";
-import { Box, Button, TextField, Typography, Grid } from "@mui/material";
+import { Grid, Button, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux"
 import { fetchAddEvent } from "@/redux/slices/eventSlice";
 import { Event } from '@/types/eventTypes';
+import '@/style/style.css'
+
 
 const schema = yup.object().shape({
   title: yup.string().required('Event title is required!!'),
@@ -16,10 +18,6 @@ const schema = yup.object().shape({
     end_date: yup.string(),
     moment: yup.string().required("Time must be provided")
   }),
-  // location: yup.object().shape({
-  //   latitude: yup.number(),
-  //   longitude: yup.number()
-  // }),
   description: yup.string().required('Description is required!!'),
   totalTickets: yup.number().required('Total number of tickets must be provided'),
   duration: yup.string().required('Duration is required!!'),
@@ -54,14 +52,11 @@ const CreateEvent = () => {
     formDataToSend.append("start_date", data.time.start_date!.toString());
     formDataToSend.append("end_date", data.time.end_date!.toString());
     formDataToSend.append("moment", data.time.moment.toString());
-    // formDataToSend.append("latitude", data.location.latitude.toString());
-    // formDataToSend.append("longitude", data.location.longitude.toString());
     formDataToSend.append("description", data.description);
     formDataToSend.append("totalTickets", data.totalTickets.toString());
     formDataToSend.append("venue", data.venue);
     formDataToSend.append("duration", data.duration);
     formDataToSend.append("price", data.price.toString());
-    // formDataToSend.append("image", data.image[0]);
     formDataToSend.append("image", image);
 
     dispatch(fetchAddEvent(formDataToSend))
@@ -76,41 +71,27 @@ const CreateEvent = () => {
   };
 
   return (
-    <>
-      <Box
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          style={{
-            margin: "20px",
-            padding: "20px",
-            border: "1px solid #ccc",
-            borderRadius: "10px",
-            width: "400px",
-            backgroundColor: "#f5f5f5",
-          }}
-        >
-          <form onSubmit={handleSubmit( onFormSubmit )}>
-            <Typography variant="h4" style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div className="container">
+      <Grid container spacing={2} style={{justifyContent:'center', marginBottom:'20px'}}>
+
+          <Grid item xs={12}>
+            <Typography variant="h4" style={{ textAlign: "center", margin: "30px 0 10px 0" }}>
               Create Event
             </Typography>
+          </Grid>
         
             {preview && (
               <Grid item xs={12} sx={{ display: "flex", justifyContent: "center"}}>
                 <img src={preview} alt="Preview" style={{width:"30%"}}/>
               </Grid>
             )}
-            <Box style={{ marginBottom: "20px" }}> {/* image */} 
+            <Grid item xs={12}  style={{ marginBottom: "20px" }}> {/* image */} 
                 <Controller
                   control={control}
                   name="image"
                   rules={{ required: true }}
                   render={({ field: { ref, ...field } }) => (
-                    <Box>
+                    <Grid>
                       <input
                         {...register("image")}
                         name="image"
@@ -130,13 +111,13 @@ const CreateEvent = () => {
                           Upload Cover Image
                         </Button>
                       </label>
-                    </Box>
+                    </Grid>
                   )}
                 />
               <p>{errors.image?.message}</p>
-            </Box>
+            </Grid>
 
-            <Grid item xs={12}>  {/* title */}
+            <Grid item xs={12} sm={6}>  {/* title */}
                   <Controller
                     control={control}
                     name="title"
@@ -207,23 +188,24 @@ const CreateEvent = () => {
                     name="time.moment"
                     rules={{ required: true }}
                     render={({ field: { ref, ...field } }) => (
-                      <TextField {...register('time.moment')}
-                        autoComplete="given-name"
-                        name="time.moment"
-                        type="time"
-                        fullWidth
-                        id="moment"
-                        InputLabelProps={{ shrink: true }}
-                        label="Time"
-                        autoFocus
-                        error={Boolean(errors.time?.moment)}
-                        {...(errors.time?.moment && {helperText:errors.time?.moment.message})}
-                      />
+                    <TextField
+                      {...register('time.moment')}
+                      autoComplete="given-name"
+                      name="time.moment"
+                      type="time"
+                      fullWidth
+                      id="moment"
+                      InputLabelProps={{ shrink: true }}
+                      label="Time"
+                      autoFocus
+                      error={Boolean(errors.time?.moment)}
+                      helperText={errors.time?.moment?.message || ''}
+                    />
                     )}
                   />
             </Grid>
 
-            <Grid item xs={12}>  {/* venue */}
+            <Grid item xs={12} sm={6}>  {/* venue */}
                   <Controller
                     control={control}
                     name="venue"
@@ -328,14 +310,18 @@ const CreateEvent = () => {
                   />
             </Grid>
 
-            <Button variant="contained" color="primary" fullWidth type="submit">
+            <Button
+              variant="contained"  
+              color="primary" 
+              type="submit" 
+              sx={{ marginTop: '25px', width: '80%' }}
+              onClick={handleSubmit( onFormSubmit )}
+            >
               Submit
             </Button>
-          </form>
-        </Box>
-      </Box>
+      </Grid>
      
-    </>
+    </div>
   );
 };
 

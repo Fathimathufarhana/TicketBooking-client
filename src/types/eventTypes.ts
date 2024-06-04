@@ -6,10 +6,6 @@ export interface Event {
     end_date: Date | null | string
     moment: string
   }
-  location: {
-    latitude: number
-    longitude: number
-  }
   description: string
   totalTickets: number
   availability: number
@@ -30,10 +26,6 @@ export const defaultEventData:Event = {
     start_date: null,
     end_date: null,
     moment: '',
-  },
-  location: {
-    latitude: 0,
-    longitude: 0,
   },
   description: '',
   totalTickets: 0,

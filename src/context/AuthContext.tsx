@@ -33,11 +33,9 @@ const AuthProvider = ({children}: Props) => {
     const headers = { Authorization: `Bearer ${storedToken}` };
     if ( ! storedToken ){
       
-      // console.log(pathname, 'pathname')
       if ( pathname !== '/register')  router.push("/login")
       
     } else {
-      //make an api call to confirm login  and handle reject case, redirect to login
         const response = axios.post(`${url.serverUrl}/user/test_auth_check`,{},{headers})
         .then(res => {
           const { access_token , data} = res.data;
@@ -57,7 +55,6 @@ const AuthProvider = ({children}: Props) => {
   }
 
   const handleLogin = async (params: Login, error ?: (err: string) => void): Promise<void> => {
-    //login api
     axios.post(`${url.serverUrl}/user/login`,params).then(res => {
       const { access_token , data} = res.data;
       localStorage.setItem(authConfig.accessToken, access_token)
@@ -72,7 +69,6 @@ const AuthProvider = ({children}: Props) => {
   }
 
   const handleLogout = async (): Promise<void> => {
-    //clear localstorage, redirect to login
     localStorage.removeItem(authConfig.accessToken)
     localStorage.removeItem("role")
     localStorage.removeItem("user_id")

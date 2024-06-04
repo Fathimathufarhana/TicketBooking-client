@@ -19,7 +19,7 @@ const page = ({params}:Props) => {
     console.log(params,"edit event")
     const [event,setEvent] = useState<Event>(defaultEventData)
 
-    useEffect(() => {
+      useEffect(() => {
         const storedToken = localStorage.getItem("access_token");
         const headers = { Authorization: `Bearer ${storedToken}` };
         const fetchEvents = async () => {
@@ -28,7 +28,8 @@ const page = ({params}:Props) => {
             .then((res) => {
               const fetchData = res.data
               setEvent(fetchData.data);
-            })
+            }
+          )
         };
           fetchEvents()
         },[])

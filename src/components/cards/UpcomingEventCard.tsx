@@ -11,9 +11,10 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import EventIcon from '@mui/icons-material/Event';
 import Link from "next/link";
 import moment from "react-moment";
+import { Event } from "@/types/eventTypes";
 
 interface data {
-  data: any;
+  data: Event;
 }
 
 const UpcomingEventCard = ({ data }: data) => {

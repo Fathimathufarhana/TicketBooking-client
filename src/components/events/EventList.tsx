@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '@/redux/slices/eventSlice';
 import EventCard from '@/components/cards/EventCard';
 import ReactPaginate from 'react-paginate';
+import { RootState } from '@/redux/store';
 
 
 
@@ -28,7 +29,7 @@ const EventList = () => {
 
   const router = useRouter()
   const dispatch = useDispatch<any>()
-  const fetchEvent = useSelector((state:any) => state.allEvents.eventData)
+  const fetchEvent = useSelector((state:RootState) => state.allEvents.eventData)
   
   useEffect(() => {
     const role_user = localStorage.getItem("role")

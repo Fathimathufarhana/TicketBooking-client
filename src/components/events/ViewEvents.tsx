@@ -27,11 +27,11 @@ const ViewEvents = ({ tab, data }: Props) => {
       setActiveTab(value)
       router.push(`/events/view/${data._id}/${value}`)
   }
-  useEffect(()=> {
-      if (tab && tab !== activeTab ) {
-          setActiveTab(tab)
-      }
-  }, [])
+    useEffect(()=> {
+        if (tab && tab !== activeTab ) {
+            setActiveTab(tab)
+        }
+    }, [])
 
   return (
 
