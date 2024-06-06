@@ -32,6 +32,7 @@ const EventTabView = ({params}: Props) => {
    
   };
   fetchEvent()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (

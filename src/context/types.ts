@@ -8,3 +8,7 @@ export type AuthProvider = {
     logout: () => void
     confirmAuth: () => void
 }
+
+export type StorageProvider = {
+  token: () => void
+}

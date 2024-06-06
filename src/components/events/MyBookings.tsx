@@ -16,6 +16,7 @@ const MyBookings = () => {
     useEffect(() => {
         const user = localStorage.getItem('user_id')!
         dispatch(fetchMyBookings({ user_id: user }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
        <Box className="books container">

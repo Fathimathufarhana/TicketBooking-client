@@ -10,6 +10,7 @@ import { fetchEditEvent } from "@/redux/slices/eventSlice";
 import { Event } from '@/types/eventTypes';
 import '@/style/style.css'
 import type { FormData } from "@/types/formDataTypes";
+import Image from "next/image";
 
 const schema = yup.object().shape({
   title: yup.string().required('Event title is required!!'),
@@ -95,6 +96,7 @@ const EditEvent = ({params}: Props) => {
 
 useEffect(() => {
  initialValue(params)
+// eslint-disable-next-line react-hooks/exhaustive-deps
 },[params])
 
   return (
@@ -110,11 +112,11 @@ useEffect(() => {
 
           {preview ? 
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "center"}}>
-              <img src={preview} alt="Preview" style={{width:"20%"}}/>
+              <Image src={preview} alt="Preview" style={{width:"20%"}}/>
             </Grid> 
             :
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "center"}}>
-              <img src={params.image} alt="preview image" style={{width:"10%"}}/>
+              <Image src={params.image} alt="preview image" style={{width:"10%"}}/>
             </Grid>
           }
 

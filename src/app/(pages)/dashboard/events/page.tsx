@@ -10,6 +10,7 @@ import "@/style/style.css"
 import { fetchDeleteEvent, fetchEvents } from '@/redux/slices/eventSlice';
 import { RootState } from '@/redux/store';
 import SearchIcon from '@mui/icons-material/Search';
+import Image from 'next/image';
 
 
 const Events = () => {
@@ -24,6 +25,7 @@ const Events = () => {
     
     useEffect(() => {
         dispatch(fetchEvents({ q:searchValue, price:priceFilter }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[searchValue, priceFilter])
 
     const handleDelete = async (event_id : string) => {
@@ -39,7 +41,7 @@ const Events = () => {
             renderCell: (fetchEvent) => {
                 return(
                     <div style={{ alignContent:"center", display:'flex', flexWrap:"wrap"}}>
-                        <img 
+                        <Image 
                             src={fetchEvent.row.image} 
                             alt="employee" 
                             style={{width:"50px", height:"50px", borderRadius:"50%"}} 

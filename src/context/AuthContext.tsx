@@ -25,6 +25,7 @@ const AuthProvider = ({children}: Props) => {
 
   useEffect(() => {
     confirmAuth()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const confirmAuth = async (): Promise<void> => {

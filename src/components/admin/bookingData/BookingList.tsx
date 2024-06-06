@@ -18,6 +18,7 @@ const BookingList = () => {
     
     useEffect(() => {
         dispatch(fetchBookings())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[BookingDetails])
 
 

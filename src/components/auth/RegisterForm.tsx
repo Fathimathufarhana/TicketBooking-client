@@ -43,7 +43,7 @@ const schema = yup.object().shape({
     pin_code: yup.string().required('Pin code is required').matches(/^\d{6}$/, 'Pin code must be 6 digits')
   }),
 });
-
+useForm
 const defaultTheme = createTheme();
 
 const SignUp = () => {
@@ -54,7 +54,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema)
-  });
+  });useForm
 
   const router = useRouter();
 
@@ -62,7 +62,7 @@ const SignUp = () => {
     try {
       await axios.post(`${url.serverUrl}/user/register`, data);
       router.push('/login');
-    } catch (error) {
+    } catch (error) {useForm
       if (axios.isAxiosError(error) && error.response) {
         console.log('Error response:', error.response); 
         setErrorMessage(error.response.data.message || "There was an error registering the user.");

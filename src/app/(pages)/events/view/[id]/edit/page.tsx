@@ -13,7 +13,7 @@ interface Props {
 } 
 
 
-const page = ({params}:Props) => {
+const Page = ({params}:Props) => {
     console.log(params,"edit event")
     const [event,setEvent] = useState<Event>(defaultEventData)
 
@@ -30,7 +30,7 @@ const page = ({params}:Props) => {
           )
         };
           fetchEvents()
-        },[])
+        },[params.id])
         console.log(event,"events from edit page")
     return (
         <div>
@@ -39,4 +39,4 @@ const page = ({params}:Props) => {
   )
 }
 
-export default page
+export default Page

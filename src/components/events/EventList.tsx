@@ -35,6 +35,7 @@ const EventList = () => {
     const role_user = localStorage.getItem("role")
     setRole(role_user)
     dispatch(fetchEvents({ q:searchValue, price:priceFilter }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[searchValue, priceFilter])
   
   const indexOfLastPost = currentPage * postsPerPage;
